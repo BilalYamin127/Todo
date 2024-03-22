@@ -1,94 +1,31 @@
-//import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_project/firebase_services/firebase_services.dart';
-import 'package:firebase_project/model/User/user_model.dart';
-
-import 'package:firebase_project/ui/auth/Screen/login.dart';
+import 'package:firebase_project/Providers/signup_provider.dart';
+import 'package:firebase_project/ui/auth/Screen/login_screen.dart';
 import 'package:firebase_project/widgets/text_field.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-  final usernameController = TextEditingController();
-  final formkey = GlobalKey<FormState>();
-
-  FirebaseAuth auth = FirebaseAuth.instance;
-  final userservice = FirebaseAuthServices();
-
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void dispose() {
+    super.dispose();
     emailController.dispose();
     passwordController.dispose();
     usernameController.dispose();
     confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> storeUserDataInFirestore(User user, UserModel userModel) async {
-    try {
-      // Get a reference to the Firestore instance
-      final firestore = FirebaseFirestore.instance;
-
-      // Get the UID of the user
-      final uid = user.uid;
-
-      // Get a reference to the collection based on the UID
-      final userCollection = firestore.collection('Users');
-
-      // Serialize UserModel instance into a Map
-      final userData = userModel.toJson();
-
-      // Add user data document to the collection
-      await userCollection.add(userData);
-
-      print('User data stored in Firestore successfully');
-    } catch (e) {
-      // Handle any errors
-      print('Error storing user data: $e');
-    }
-  }
-
-  void createUserWithFirebaseAuth() async {
-    try {
-      // Create user with email and password
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.toString(),
-        password: passwordController.text.toString(),
-      );
-
-      // Get user data
-      User user = userCredential.user!;
-
-      // Create UserModel instance with desired data
-      UserModel userModel = UserModel(
-        email: emailController.text.toString(),
-        username: usernameController.text.toString(),
-        password: passwordController.text.toString(),
-        id: user.uid,
-
-        // Add any other fields you want to store
-      );
-
-      // Store user data in Firestore
-      await storeUserDataInFirestore(user, userModel);
-
-      print('User data stored in Firestore successfully');
-    } catch (e) {
-      // Handle any errors
-      print('Error creating user: $e');
-    }
   }
 
   @override
@@ -136,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 20,
                         ),
                         Form(
-                          key: formkey,
+                          key: formKey,
                           child: Column(
                             children: [
                               SizedBox(
@@ -221,10 +158,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (formkey.currentState!.validate()) {
-                                      createUserWithFirebaseAuth();
+                                    if (formKey.currentState!.validate()) {
+                                      ref
+                                          .read(signupprovider.notifier)
+                                          .createUserWithEmailAndPassword(
+                                              emailController.text.toString(),
+                                              passwordController.text
+                                                  .toString(),
+                                              usernameController.text
+                                                  .toString());
                                     }
-                                    ;
                                   },
                                   style: ButtonStyle(
                                     backgroundColor:

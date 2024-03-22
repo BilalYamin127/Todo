@@ -1,9 +1,9 @@
-import 'package:firebase_project/ui/auth/Screen/login.dart';
+import 'package:firebase_project/ui/auth/Screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class StartScreen extends StatelessWidget {
-  StartScreen({super.key});
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +15,10 @@ class StartScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(230, 235, 195, 136),
+              Color.fromARGB(230, 243, 198, 132),
               Color.fromARGB(200, 210, 187, 240),
               Color.fromARGB(255, 233, 167, 90),
+              Color.fromARGB(199, 189, 146, 245),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_project/ui/auth/Screen/homescreen.dart';
-import 'package:firebase_project/ui/auth/Screen/sign_up.dart';
+
+import 'package:firebase_project/ui/auth/Screen/home_screen.dart';
+import 'package:firebase_project/ui/auth/Screen/sign_up_screen.dart';
 import 'package:firebase_project/widgets/text_field.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email: emailController.text.toString(),
           password: passwordController.text.toString());
-      print('user cridential are $userCredential');
+
       if (!mounted) return;
       User? user = userCredential.user;
 
