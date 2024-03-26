@@ -1,4 +1,5 @@
 import 'package:firebase_project/ui/auth/Screen/logout_screen.dart';
+import 'package:firebase_project/ui/auth/Screen/task_screen.dart';
 import 'package:firebase_project/widgets/container.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,11 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int _selectedIndex = -1;
-  // bool isChecked = false;
-  // List<bool> _isCheckedList = List.generate(
-  //     10,
-  //     (index) =>
-  //         false); // Initialize a list to track the state of each checkbox
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +174,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(12),
                     child: InkWell(
                       onTap: () {
-                        print('create new user');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TasksScreen()));
                       },
                       child: Container(
                           height: 60,
