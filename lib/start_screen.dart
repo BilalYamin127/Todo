@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_project/ui/auth/Screen/home_screen.dart';
 import 'package:firebase_project/ui/auth/Screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -57,12 +59,23 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 24), // Add more space before the button
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
+                  User? user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    // User is already logged in, navigate to home screen
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(user: user),
+                        ));
+                  } else {
+                    // User is not logged in, navigate to login screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
+                  }
                 },
                 child: Container(
                     width: 170,

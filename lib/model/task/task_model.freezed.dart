@@ -20,16 +20,16 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
-  Categoryenum get taskCategory => throw _privateConstructorUsedError;
-  Priorityenum get taskPriority => throw _privateConstructorUsedError;
-  DateTime get taskDate => throw _privateConstructorUsedError;
+  Categoryenum? get taskCategory => throw _privateConstructorUsedError;
+  Priorityenum? get taskPriority => throw _privateConstructorUsedError;
+  DateTime? get taskDate => throw _privateConstructorUsedError;
   @TimeOfDayConverter()
-  TimeOfDay get taskStartTime => throw _privateConstructorUsedError;
+  TimeOfDay? get taskStartTime => throw _privateConstructorUsedError;
   @TimeOfDayConverter()
-  TimeOfDay get taskEndTime => throw _privateConstructorUsedError;
-  String get taskDescription => throw _privateConstructorUsedError;
-  String? get Id => throw _privateConstructorUsedError;
-  String get taskname => throw _privateConstructorUsedError;
+  TimeOfDay? get taskEndTime => throw _privateConstructorUsedError;
+  String? get taskDescription => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
+  String? get taskname => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,14 +43,14 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {Categoryenum taskCategory,
-      Priorityenum taskPriority,
-      DateTime taskDate,
-      @TimeOfDayConverter() TimeOfDay taskStartTime,
-      @TimeOfDayConverter() TimeOfDay taskEndTime,
-      String taskDescription,
-      String? Id,
-      String taskname});
+      {Categoryenum? taskCategory,
+      Priorityenum? taskPriority,
+      DateTime? taskDate,
+      @TimeOfDayConverter() TimeOfDay? taskStartTime,
+      @TimeOfDayConverter() TimeOfDay? taskEndTime,
+      String? taskDescription,
+      String? id,
+      String? taskname});
 }
 
 /// @nodoc
@@ -66,48 +66,48 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? taskCategory = null,
-    Object? taskPriority = null,
-    Object? taskDate = null,
-    Object? taskStartTime = null,
-    Object? taskEndTime = null,
-    Object? taskDescription = null,
-    Object? Id = freezed,
-    Object? taskname = null,
+    Object? taskCategory = freezed,
+    Object? taskPriority = freezed,
+    Object? taskDate = freezed,
+    Object? taskStartTime = freezed,
+    Object? taskEndTime = freezed,
+    Object? taskDescription = freezed,
+    Object? id = freezed,
+    Object? taskname = freezed,
   }) {
     return _then(_value.copyWith(
-      taskCategory: null == taskCategory
+      taskCategory: freezed == taskCategory
           ? _value.taskCategory
           : taskCategory // ignore: cast_nullable_to_non_nullable
-              as Categoryenum,
-      taskPriority: null == taskPriority
+              as Categoryenum?,
+      taskPriority: freezed == taskPriority
           ? _value.taskPriority
           : taskPriority // ignore: cast_nullable_to_non_nullable
-              as Priorityenum,
-      taskDate: null == taskDate
+              as Priorityenum?,
+      taskDate: freezed == taskDate
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      taskStartTime: null == taskStartTime
+              as DateTime?,
+      taskStartTime: freezed == taskStartTime
           ? _value.taskStartTime
           : taskStartTime // ignore: cast_nullable_to_non_nullable
-              as TimeOfDay,
-      taskEndTime: null == taskEndTime
+              as TimeOfDay?,
+      taskEndTime: freezed == taskEndTime
           ? _value.taskEndTime
           : taskEndTime // ignore: cast_nullable_to_non_nullable
-              as TimeOfDay,
-      taskDescription: null == taskDescription
+              as TimeOfDay?,
+      taskDescription: freezed == taskDescription
           ? _value.taskDescription
           : taskDescription // ignore: cast_nullable_to_non_nullable
-              as String,
-      Id: freezed == Id
-          ? _value.Id
-          : Id // ignore: cast_nullable_to_non_nullable
               as String?,
-      taskname: null == taskname
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      taskname: freezed == taskname
           ? _value.taskname
           : taskname // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -121,14 +121,14 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Categoryenum taskCategory,
-      Priorityenum taskPriority,
-      DateTime taskDate,
-      @TimeOfDayConverter() TimeOfDay taskStartTime,
-      @TimeOfDayConverter() TimeOfDay taskEndTime,
-      String taskDescription,
-      String? Id,
-      String taskname});
+      {Categoryenum? taskCategory,
+      Priorityenum? taskPriority,
+      DateTime? taskDate,
+      @TimeOfDayConverter() TimeOfDay? taskStartTime,
+      @TimeOfDayConverter() TimeOfDay? taskEndTime,
+      String? taskDescription,
+      String? id,
+      String? taskname});
 }
 
 /// @nodoc
@@ -142,48 +142,48 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? taskCategory = null,
-    Object? taskPriority = null,
-    Object? taskDate = null,
-    Object? taskStartTime = null,
-    Object? taskEndTime = null,
-    Object? taskDescription = null,
-    Object? Id = freezed,
-    Object? taskname = null,
+    Object? taskCategory = freezed,
+    Object? taskPriority = freezed,
+    Object? taskDate = freezed,
+    Object? taskStartTime = freezed,
+    Object? taskEndTime = freezed,
+    Object? taskDescription = freezed,
+    Object? id = freezed,
+    Object? taskname = freezed,
   }) {
     return _then(_$TaskModelImpl(
-      null == taskCategory
+      taskCategory: freezed == taskCategory
           ? _value.taskCategory
           : taskCategory // ignore: cast_nullable_to_non_nullable
-              as Categoryenum,
-      null == taskPriority
+              as Categoryenum?,
+      taskPriority: freezed == taskPriority
           ? _value.taskPriority
           : taskPriority // ignore: cast_nullable_to_non_nullable
-              as Priorityenum,
-      null == taskDate
+              as Priorityenum?,
+      taskDate: freezed == taskDate
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      null == taskStartTime
+              as DateTime?,
+      taskStartTime: freezed == taskStartTime
           ? _value.taskStartTime
           : taskStartTime // ignore: cast_nullable_to_non_nullable
-              as TimeOfDay,
-      null == taskEndTime
+              as TimeOfDay?,
+      taskEndTime: freezed == taskEndTime
           ? _value.taskEndTime
           : taskEndTime // ignore: cast_nullable_to_non_nullable
-              as TimeOfDay,
-      null == taskDescription
+              as TimeOfDay?,
+      taskDescription: freezed == taskDescription
           ? _value.taskDescription
           : taskDescription // ignore: cast_nullable_to_non_nullable
-              as String,
-      freezed == Id
-          ? _value.Id
-          : Id // ignore: cast_nullable_to_non_nullable
               as String?,
-      null == taskname
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      taskname: freezed == taskname
           ? _value.taskname
           : taskname // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -192,40 +192,40 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaskModelImpl implements _TaskModel {
   _$TaskModelImpl(
-      this.taskCategory,
+      {this.taskCategory,
       this.taskPriority,
       this.taskDate,
       @TimeOfDayConverter() this.taskStartTime,
       @TimeOfDayConverter() this.taskEndTime,
       this.taskDescription,
-      this.Id,
-      this.taskname);
+      this.id,
+      this.taskname});
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
 
   @override
-  final Categoryenum taskCategory;
+  final Categoryenum? taskCategory;
   @override
-  final Priorityenum taskPriority;
+  final Priorityenum? taskPriority;
   @override
-  final DateTime taskDate;
-  @override
-  @TimeOfDayConverter()
-  final TimeOfDay taskStartTime;
+  final DateTime? taskDate;
   @override
   @TimeOfDayConverter()
-  final TimeOfDay taskEndTime;
+  final TimeOfDay? taskStartTime;
   @override
-  final String taskDescription;
+  @TimeOfDayConverter()
+  final TimeOfDay? taskEndTime;
   @override
-  final String? Id;
+  final String? taskDescription;
   @override
-  final String taskname;
+  final String? id;
+  @override
+  final String? taskname;
 
   @override
   String toString() {
-    return 'TaskModel(taskCategory: $taskCategory, taskPriority: $taskPriority, taskDate: $taskDate, taskStartTime: $taskStartTime, taskEndTime: $taskEndTime, taskDescription: $taskDescription, Id: $Id, taskname: $taskname)';
+    return 'TaskModel(taskCategory: $taskCategory, taskPriority: $taskPriority, taskDate: $taskDate, taskStartTime: $taskStartTime, taskEndTime: $taskEndTime, taskDescription: $taskDescription, id: $id, taskname: $taskname)';
   }
 
   @override
@@ -245,7 +245,7 @@ class _$TaskModelImpl implements _TaskModel {
                 other.taskEndTime == taskEndTime) &&
             (identical(other.taskDescription, taskDescription) ||
                 other.taskDescription == taskDescription) &&
-            (identical(other.Id, Id) || other.Id == Id) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.taskname, taskname) ||
                 other.taskname == taskname));
   }
@@ -253,7 +253,7 @@ class _$TaskModelImpl implements _TaskModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, taskCategory, taskPriority,
-      taskDate, taskStartTime, taskEndTime, taskDescription, Id, taskname);
+      taskDate, taskStartTime, taskEndTime, taskDescription, id, taskname);
 
   @JsonKey(ignore: true)
   @override
@@ -271,36 +271,36 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   factory _TaskModel(
-      final Categoryenum taskCategory,
-      final Priorityenum taskPriority,
-      final DateTime taskDate,
-      @TimeOfDayConverter() final TimeOfDay taskStartTime,
-      @TimeOfDayConverter() final TimeOfDay taskEndTime,
-      final String taskDescription,
-      final String? Id,
-      final String taskname) = _$TaskModelImpl;
+      {final Categoryenum? taskCategory,
+      final Priorityenum? taskPriority,
+      final DateTime? taskDate,
+      @TimeOfDayConverter() final TimeOfDay? taskStartTime,
+      @TimeOfDayConverter() final TimeOfDay? taskEndTime,
+      final String? taskDescription,
+      final String? id,
+      final String? taskname}) = _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
 
   @override
-  Categoryenum get taskCategory;
+  Categoryenum? get taskCategory;
   @override
-  Priorityenum get taskPriority;
+  Priorityenum? get taskPriority;
   @override
-  DateTime get taskDate;
-  @override
-  @TimeOfDayConverter()
-  TimeOfDay get taskStartTime;
+  DateTime? get taskDate;
   @override
   @TimeOfDayConverter()
-  TimeOfDay get taskEndTime;
+  TimeOfDay? get taskStartTime;
   @override
-  String get taskDescription;
+  @TimeOfDayConverter()
+  TimeOfDay? get taskEndTime;
   @override
-  String? get Id;
+  String? get taskDescription;
   @override
-  String get taskname;
+  String? get id;
+  @override
+  String? get taskname;
   @override
   @JsonKey(ignore: true)
   _$$TaskModelImplCopyWith<_$TaskModelImpl> get copyWith =>

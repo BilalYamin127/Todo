@@ -87,7 +87,7 @@ class _LogOutState extends State<LogOut> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 12),
                     child: Text(
-                      '${widget.user?.email ?? 'User'}',
+                      widget.user?.email ?? 'User',
                       style: const TextStyle(
                         fontSize: 18,
                       ),
@@ -123,9 +123,9 @@ class _LogOutState extends State<LogOut> {
         Positioned(
           bottom: 0,
           right: 0,
-          child: Image.asset('assets/images/logout_bottum_left.png'),
           height: 100,
           width: 100,
+          child: Image.asset('assets/images/logout_bottum_left.png'),
         ),
         Positioned(
             left: 12,

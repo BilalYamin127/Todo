@@ -4,7 +4,7 @@ import 'package:firebase_project/model/user/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserSignUpRepo {
-  Future<void> storeUserDataInFirestore(User user, UserModel userModel) async {
+  Future<void> storeUserDataInFirestore(UserModel userModel) async {
     try {
       final firestore = FirebaseFirestore.instance;
       final userCollection = firestore.collection('Users');
@@ -33,7 +33,7 @@ class UserSignUpRepo {
         id: user.uid,
       );
 
-      await storeUserDataInFirestore(user, userModel);
+      await storeUserDataInFirestore(userModel);
       print('User data stored in Firestore successfully');
     } catch (e) {
       print('Error creating user: $e');

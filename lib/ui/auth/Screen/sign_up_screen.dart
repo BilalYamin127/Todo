@@ -13,23 +13,9 @@ class SignUpScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  @override
-  void dispose() {
-    super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    usernameController.dispose();
-    confirmPasswordController.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    var signupp = ref.watch(signupprovider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -73,13 +59,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           height: 20,
                         ),
                         Form(
-                          key: formKey,
+                          key: signupp.formKey,
                           child: Column(
                             children: [
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: emailController,
+                                  controller: signupp.emailController,
                                   autofocus: true,
                                   hintText: 'john@gmail.com',
                                   suffixText: 'Email',
@@ -100,7 +86,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: usernameController,
+                                  controller: signupp.usernameController,
                                   hintText: 'bilalYamin123.. etc',
                                   suffixText: 'Username',
                                   validator: (value) {
@@ -115,7 +101,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: passwordController,
+                                  controller: signupp.passwordController,
                                   obscureText: true,
                                   hintText: '********',
                                   suffixText: 'Password',
@@ -134,7 +120,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: confirmPasswordController,
+                                  controller: signupp.confirmPasswordController,
                                   obscureText: true,
                                   hintText: '********',
                                   suffixText: 'Confirm Password',
@@ -142,7 +128,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                     if (value == null || value.isEmpty) {
                                       return 'Please Enter Confirm Password ';
                                     }
-                                    if (value != passwordController.text) {
+                                    if (value !=
+                                        signupp.passwordController.text) {
                                       return 'Passwords do not match';
                                     }
 
@@ -158,14 +145,16 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (formKey.currentState!.validate()) {
+                                    if (signupp.formKey.currentState!
+                                        .validate()) {
                                       ref
                                           .read(signupprovider.notifier)
                                           .createUserWithEmailAndPassword(
-                                              emailController.text.toString(),
-                                              passwordController.text
+                                              signupp.emailController.text
                                                   .toString(),
-                                              usernameController.text
+                                              signupp.passwordController.text
+                                                  .toString(),
+                                              signupp.usernameController.text
                                                   .toString());
                                     }
                                   },

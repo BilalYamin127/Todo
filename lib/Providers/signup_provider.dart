@@ -11,6 +11,7 @@ class SignUpState {
       TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final bool isLoading;
   SignUpState({
     required this.isLoading,
