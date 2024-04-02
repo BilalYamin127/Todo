@@ -77,6 +77,7 @@ class _TasksScreenState extends State<TasksScreen> {
       taskDescription: descriptionController.text,
       taskname: taskNameController.text,
       id: idd,
+      isCompleted: false,
     );
   }
 

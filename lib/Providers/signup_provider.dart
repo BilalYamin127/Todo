@@ -47,7 +47,7 @@ class SignupNotifier extends Notifier<SignUpState> {
 
   @override
   SignUpState build() {
-    throw UnimplementedError();
+    return SignUpState(isLoading: false);
   }
 }
 

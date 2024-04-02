@@ -15,6 +15,7 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       taskDate: json['taskDate'] == null
           ? null
           : DateTime.parse(json['taskDate'] as String),
+      isCompleted: json['isCompleted'] as bool?,
       taskStartTime: _$JsonConverterFromJson<String, TimeOfDay>(
           json['taskStartTime'], const TimeOfDayConverter().fromJson),
       taskEndTime: _$JsonConverterFromJson<String, TimeOfDay>(
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
       'taskCategory': _$CategoryenumEnumMap[instance.taskCategory],
       'taskPriority': _$PriorityenumEnumMap[instance.taskPriority],
       'taskDate': instance.taskDate?.toIso8601String(),
+      'isCompleted': instance.isCompleted,
       'taskStartTime': _$JsonConverterToJson<String, TimeOfDay>(
           instance.taskStartTime, const TimeOfDayConverter().toJson),
       'taskEndTime': _$JsonConverterToJson<String, TimeOfDay>(

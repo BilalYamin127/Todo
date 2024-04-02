@@ -1,75 +1,42 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_project/Providers/couter_provider.dart';
+import 'package:firebase_project/Providers/user_details.dart';
+import 'package:firebase_project/model/user/user_model.dart';
 import 'package:firebase_project/ui/auth/Screen/edit_task_screen.dart';
 import 'package:firebase_project/ui/auth/Screen/logout_screen.dart';
 import 'package:firebase_project/ui/auth/Screen/create_task_screen.dart';
 import 'package:firebase_project/widgets/container.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   final User? user;
 
-  const HomeScreen({Key? key, required this.user}) : super(key: key);
+  // ignore: use_key_in_widget_constructors
+  const HomeScreen({required this.user});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int work = 0;
-  int groc = 0;
-  int daily = 0;
-  int pro = 0;
-
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getCategoryCounts();
-  }
-
-  void getCategoryCounts() async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    QuerySnapshot works = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'work')
-        .get();
-    setState(() {
-      work = works.size;
-    });
-    QuerySnapshot projects = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'projects')
-        .get();
-    setState(() {
-      pro = projects.size;
-    });
-    QuerySnapshot dailytask = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'dailytasks')
-        .get();
-    setState(() {
-      daily = dailytask.size;
-    });
-    QuerySnapshot groceries = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'groceries')
-        .get();
-    setState(() {
-      groc = groceries.size;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(userProvider.notifier).getUser();
+      ref
+          .read(categoryCountsProvider.notifier)
+          .updateCategoryCountsFromFirestore();
     });
   }
-
-  void movetoLogout() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LogOut(user: widget.user)),
-    );
-  }
-
-  int _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider).userModel;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -95,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Welcome, ${widget.user?.email ?? 'User'}',
+                            'Welcome,${user!.username}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -103,7 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         InkWell(
-                          onTap: movetoLogout,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LogOut(user: widget.user)),
+                            );
+                          },
                           child: const CircleAvatar(
                             backgroundImage:
                                 AssetImage('assets/images/home_profile.png'),
@@ -118,13 +92,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomContainer(
-                        count: pro,
+                        count: ref.watch(categoryCountsProvider).projects,
                         icon: const Icon(Icons.speaker),
                         title: 'Projects',
                         color: const Color.fromARGB(255, 180, 196, 255),
                       ),
                       CustomContainer(
-                        count: work,
+                        count: ref.watch(categoryCountsProvider).work,
                         icon: const Icon(Icons.work),
                         title: 'Work',
                         color: const Color.fromARGB(255, 207, 243, 233),
@@ -136,13 +110,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomContainer(
-                        count: daily,
+                        count: ref.watch(categoryCountsProvider).dailyTasks,
                         icon: const Icon(Icons.task),
                         title: 'Daily Tasks',
                         color: const Color.fromARGB(255, 193, 145, 255),
                       ),
                       CustomContainer(
-                        count: groc,
+                        count: ref.watch(categoryCountsProvider).groceries,
                         icon: const Icon(Icons.local_grocery_store),
                         title: 'Groceries',
                         color: Color.fromARGB(255, 244, 216, 177),
@@ -191,11 +165,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   vertical: 8.0,
                                 ),
                                 leading: Checkbox(
+                                  tristate: false,
                                   shape: const CircleBorder(),
-                                  value: _selectedIndex == index,
+                                  value: datadoc['isCompleted'],
                                   onChanged: (bool? newValue) {
-                                    setState(() {
-                                      _selectedIndex = newValue! ? index : -1;
+                                    FirebaseFirestore.instance
+                                        .collection('Tasks')
+                                        .doc(document.id)
+                                        .update({
+                                      'isCompleted': newValue,
                                     });
                                   },
                                 ),
@@ -231,9 +209,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                         );
-                                        setState(() {
-                                          getCategoryCounts();
-                                        });
+
+                                        // setState(() {
+                                        //   getCategoryCounts();
+                                        // });
                                       },
                                       icon: const Icon(Icons.edit),
                                     ),
@@ -243,9 +222,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .collection('Tasks')
                                             .doc(document.id)
                                             .delete();
-                                        setState(() {
-                                          getCategoryCounts();
-                                        });
+                                        // setState(() {
+                                        //   getCategoryCounts();
+                                        // });
                                       },
                                       icon: const Icon(
                                         Icons.delete_rounded,
@@ -267,15 +246,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(12),
                       child: InkWell(
                         onTap: () {
-                          setState(() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const TasksScreen(),
-                              ),
-                            );
-                            getCategoryCounts();
-                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TasksScreen(),
+                            ),
+                          );
                         },
                         child: Container(
                           height: 60,

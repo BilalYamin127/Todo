@@ -29,6 +29,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedStartTime;
   TimeOfDay? _selectedEndTime;
+  bool? iscomplete;
 
   @override
   @override
@@ -48,6 +49,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     String? startTimeString = widget.dataDoc['taskStartTime'];
     selectedStartTime(startTimeString);
     String? endtimeString = widget.dataDoc['taskEndTime'];
+    iscomplete = widget.dataDoc['isCompleted'];
     selectedEndtime(endtimeString);
   }
 
@@ -158,10 +160,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       taskDescription: descriptionController.text,
       taskname: taskNameController.text,
       id: idd,
+      isCompleted: iscomplete,
     );
   }
 
-  Future<void> storeTaskInFirestore(TaskModel task, String id) async {
+  Future<void> updateTaskInFirestore(TaskModel task, String id) async {
     try {
       final firestore = FirebaseFirestore.instance;
       final taskCollection = firestore.collection('Tasks');
@@ -478,7 +481,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
                                   TaskModel task = mapToTaskModel();
-                                  storeTaskInFirestore(task, widget.id);
+                                  updateTaskInFirestore(task, widget.id);
                                 }
                               },
                               child: Container(

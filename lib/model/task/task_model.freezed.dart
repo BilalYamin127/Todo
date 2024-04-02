@@ -23,6 +23,7 @@ mixin _$TaskModel {
   Categoryenum? get taskCategory => throw _privateConstructorUsedError;
   Priorityenum? get taskPriority => throw _privateConstructorUsedError;
   DateTime? get taskDate => throw _privateConstructorUsedError;
+  bool? get isCompleted => throw _privateConstructorUsedError;
   @TimeOfDayConverter()
   TimeOfDay? get taskStartTime => throw _privateConstructorUsedError;
   @TimeOfDayConverter()
@@ -46,6 +47,7 @@ abstract class $TaskModelCopyWith<$Res> {
       {Categoryenum? taskCategory,
       Priorityenum? taskPriority,
       DateTime? taskDate,
+      bool? isCompleted,
       @TimeOfDayConverter() TimeOfDay? taskStartTime,
       @TimeOfDayConverter() TimeOfDay? taskEndTime,
       String? taskDescription,
@@ -69,6 +71,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? taskCategory = freezed,
     Object? taskPriority = freezed,
     Object? taskDate = freezed,
+    Object? isCompleted = freezed,
     Object? taskStartTime = freezed,
     Object? taskEndTime = freezed,
     Object? taskDescription = freezed,
@@ -88,6 +91,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isCompleted: freezed == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool?,
       taskStartTime: freezed == taskStartTime
           ? _value.taskStartTime
           : taskStartTime // ignore: cast_nullable_to_non_nullable
@@ -124,6 +131,7 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       {Categoryenum? taskCategory,
       Priorityenum? taskPriority,
       DateTime? taskDate,
+      bool? isCompleted,
       @TimeOfDayConverter() TimeOfDay? taskStartTime,
       @TimeOfDayConverter() TimeOfDay? taskEndTime,
       String? taskDescription,
@@ -145,6 +153,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? taskCategory = freezed,
     Object? taskPriority = freezed,
     Object? taskDate = freezed,
+    Object? isCompleted = freezed,
     Object? taskStartTime = freezed,
     Object? taskEndTime = freezed,
     Object? taskDescription = freezed,
@@ -164,6 +173,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isCompleted: freezed == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool?,
       taskStartTime: freezed == taskStartTime
           ? _value.taskStartTime
           : taskStartTime // ignore: cast_nullable_to_non_nullable
@@ -195,6 +208,7 @@ class _$TaskModelImpl implements _TaskModel {
       {this.taskCategory,
       this.taskPriority,
       this.taskDate,
+      this.isCompleted,
       @TimeOfDayConverter() this.taskStartTime,
       @TimeOfDayConverter() this.taskEndTime,
       this.taskDescription,
@@ -211,6 +225,8 @@ class _$TaskModelImpl implements _TaskModel {
   @override
   final DateTime? taskDate;
   @override
+  final bool? isCompleted;
+  @override
   @TimeOfDayConverter()
   final TimeOfDay? taskStartTime;
   @override
@@ -225,7 +241,7 @@ class _$TaskModelImpl implements _TaskModel {
 
   @override
   String toString() {
-    return 'TaskModel(taskCategory: $taskCategory, taskPriority: $taskPriority, taskDate: $taskDate, taskStartTime: $taskStartTime, taskEndTime: $taskEndTime, taskDescription: $taskDescription, id: $id, taskname: $taskname)';
+    return 'TaskModel(taskCategory: $taskCategory, taskPriority: $taskPriority, taskDate: $taskDate, isCompleted: $isCompleted, taskStartTime: $taskStartTime, taskEndTime: $taskEndTime, taskDescription: $taskDescription, id: $id, taskname: $taskname)';
   }
 
   @override
@@ -239,6 +255,8 @@ class _$TaskModelImpl implements _TaskModel {
                 other.taskPriority == taskPriority) &&
             (identical(other.taskDate, taskDate) ||
                 other.taskDate == taskDate) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted) &&
             (identical(other.taskStartTime, taskStartTime) ||
                 other.taskStartTime == taskStartTime) &&
             (identical(other.taskEndTime, taskEndTime) ||
@@ -252,8 +270,17 @@ class _$TaskModelImpl implements _TaskModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, taskCategory, taskPriority,
-      taskDate, taskStartTime, taskEndTime, taskDescription, id, taskname);
+  int get hashCode => Object.hash(
+      runtimeType,
+      taskCategory,
+      taskPriority,
+      taskDate,
+      isCompleted,
+      taskStartTime,
+      taskEndTime,
+      taskDescription,
+      id,
+      taskname);
 
   @JsonKey(ignore: true)
   @override
@@ -274,6 +301,7 @@ abstract class _TaskModel implements TaskModel {
       {final Categoryenum? taskCategory,
       final Priorityenum? taskPriority,
       final DateTime? taskDate,
+      final bool? isCompleted,
       @TimeOfDayConverter() final TimeOfDay? taskStartTime,
       @TimeOfDayConverter() final TimeOfDay? taskEndTime,
       final String? taskDescription,
@@ -289,6 +317,8 @@ abstract class _TaskModel implements TaskModel {
   Priorityenum? get taskPriority;
   @override
   DateTime? get taskDate;
+  @override
+  bool? get isCompleted;
   @override
   @TimeOfDayConverter()
   TimeOfDay? get taskStartTime;

@@ -13,6 +13,7 @@ abstract class TaskModel with _$TaskModel {
     Categoryenum? taskCategory,
     Priorityenum? taskPriority,
     DateTime? taskDate,
+    bool? isCompleted,
     @TimeOfDayConverter() TimeOfDay? taskStartTime,
     @TimeOfDayConverter() TimeOfDay? taskEndTime,
     String? taskDescription,

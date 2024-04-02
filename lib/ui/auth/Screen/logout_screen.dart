@@ -1,19 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_project/Providers/user_details.dart';
 import 'package:firebase_project/ui/auth/Screen/login_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LogOut extends StatefulWidget {
+class LogOut extends ConsumerStatefulWidget {
   final User? user;
   const LogOut({super.key, required this.user});
 
   @override
-  State<LogOut> createState() => _LogOutState();
+  ConsumerState<LogOut> createState() => _LogOutState();
 }
 
-class _LogOutState extends State<LogOut> {
+class _LogOutState extends ConsumerState<LogOut> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider).userModel;
+
     return Scaffold(
       body: Stack(children: [
         Column(children: [
@@ -50,7 +54,7 @@ class _LogOutState extends State<LogOut> {
                             AssetImage('assets/images/logout_profile.png'),
                       ),
                       Text(
-                        ' ${widget.user?.email ?? 'User'}',
+                        ' ${user!.username}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,

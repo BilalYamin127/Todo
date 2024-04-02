@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_project/model/user/user_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserSignUpRepo {
-  Future<void> storeUserDataInFirestore(UserModel userModel) async {
+  Future<void> storeUserModelInFirestore(UserModel userModel) async {
     try {
       final firestore = FirebaseFirestore.instance;
       final userCollection = firestore.collection('Users');
-      final userData = userModel.toJson(); // Convert userModel to JSON
-      await userCollection.add(userData);
+      // Convert userModel to JSON
+      await userCollection.doc(userModel.id).set(userModel.toJson());
       print('User data stored in Firestore successfully');
     } catch (e) {
       print('Error storing user data: $e');
@@ -33,7 +32,7 @@ class UserSignUpRepo {
         id: user.uid,
       );
 
-      await storeUserDataInFirestore(userModel);
+      await storeUserModelInFirestore(userModel);
       print('User data stored in Firestore successfully');
     } catch (e) {
       print('Error creating user: $e');
@@ -41,7 +40,7 @@ class UserSignUpRepo {
   }
 }
 
-final userModelProvider = Provider<UserModel>((ref) {
-  // Initialize your UserModel here
-  return UserModel(); // Example initialization, replace with your logic
-});
+// final userModelProvider = Provider<UserModel>((ref) {
+//   // Initialize your UserModel here
+//   return UserModel(); // Example initialization, replace with your logic
+// });

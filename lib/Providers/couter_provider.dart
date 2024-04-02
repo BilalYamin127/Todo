@@ -1,60 +1,66 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+class CategoryCounts {
+  int work = 0;
+  int projects = 0;
+  int dailyTasks = 0;
+  int groceries = 0;
 
-class CounterState {
-  int wor = 0;
-  int gro = 0;
-  int dail = 0;
-  int pro = 0;
+  CategoryCounts({
+    required this.work,
+    required this.projects,
+    required this.dailyTasks,
+    required this.groceries,
+  });
+}
 
-  CounterState copyWith({
-    bool? isLoading,
-  }) {
-    return CounterState();
+class CategoryCountsNotifier extends StateNotifier<CategoryCounts> {
+  CategoryCountsNotifier()
+      : super(CategoryCounts(
+            work: 0, projects: 0, dailyTasks: 0, groceries: 0)) {}
+
+  void updateCategoryCountsFromFirestore() {
+    FirebaseFirestore.instance
+        .collection('Tasks')
+        .snapshots()
+        .listen((snapshot) {
+      int workCount = 0;
+      int projectCount = 0;
+      int dailyTaskCount = 0;
+      int groceriesCount = 0;
+
+      snapshot.docs.forEach((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        String category = data['taskCategory'];
+
+        switch (category) {
+          case 'work':
+            workCount++;
+            break;
+          case 'projects':
+            projectCount++;
+            break;
+          case 'dailytasks':
+            dailyTaskCount++;
+            break;
+          case 'groceries':
+            groceriesCount++;
+            break;
+        }
+      });
+
+      state = CategoryCounts(
+        work: workCount,
+        projects: projectCount,
+        dailyTasks: dailyTaskCount,
+        groceries: groceriesCount,
+      );
+    });
   }
 }
 
-class SignupNotifier extends Notifier<CounterState> {
-  void setIsLoading() {
-    //final isloading = state.isLoading;
-    state = state.copyWith(isLoading: false);
-  }
-
-  void getCategoryCounts() async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    QuerySnapshot works = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'work')
-        .get();
-    CounterState().wor = works.size;
-
-    QuerySnapshot projects = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'projects')
-        .get();
-    CounterState().pro = projects.size;
-
-    QuerySnapshot dailytask = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'dailytasks')
-        .get();
-    CounterState().dail = dailytask.size;
-
-    QuerySnapshot groceries = await firestore
-        .collection('Tasks')
-        .where('taskCategory', isEqualTo: 'groceries')
-        .get();
-    CounterState().gro = groceries.size;
-  }
-
-  @override
-  CounterState build() {
-    throw UnimplementedError();
-  }
-}
-
-final counterprovider =
-    NotifierProvider<SignupNotifier, CounterState>(SignupNotifier.new);
+final categoryCountsProvider =
+    StateNotifierProvider<CategoryCountsNotifier, CategoryCounts>((ref) {
+  return CategoryCountsNotifier();
+});
