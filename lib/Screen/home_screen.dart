@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_project/Providers/category_couter_provider.dart';
 import 'package:firebase_project/Providers/user_details.dart';
 
-import 'package:firebase_project/ui/auth/Screen/edit_task_screen.dart';
-import 'package:firebase_project/ui/auth/Screen/logout_screen.dart';
-import 'package:firebase_project/ui/auth/Screen/create_task_screen.dart';
+import 'package:firebase_project/Screen/edit_task_screen.dart';
+import 'package:firebase_project/Screen/logout_screen.dart';
+import 'package:firebase_project/Screen/create_task_screen.dart';
 import 'package:firebase_project/widgets/container.dart';
 import 'package:flutter/material.dart';
 
@@ -134,10 +134,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           return Text('Error: ${snapshot.error}');
                         }
 
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        }
+                        // if (snapshot.connectionState ==
+                        //     ConnectionState.waiting) {
+                        //   return const CircularProgressIndicator();
+                        // }
 
                         return ListView.builder(
                           itemCount: snapshot.data!.docs.length,
@@ -150,8 +150,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             return Container(
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
+                                color: datadoc['isCompleted']
+                                    ? const Color.fromARGB(255, 206, 255, 219)
+                                    : Colors.white,
                                 border: Border.all(
-                                  color: const Color.fromARGB(255, 22, 10, 9),
+                                  color: Color.fromARGB(20, 22, 10, 9),
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(12.0),
@@ -162,6 +165,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   vertical: 8.0,
                                 ),
                                 leading: Checkbox(
+                                  checkColor:
+                                      Colors.white, // Color of the check icon
+                                  activeColor: Color.fromARGB(255, 52, 168, 83),
                                   tristate: false,
                                   shape: const CircleBorder(),
                                   value: datadoc['isCompleted'],

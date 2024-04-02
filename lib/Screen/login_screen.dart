@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:firebase_project/ui/auth/Screen/home_screen.dart';
-import 'package:firebase_project/ui/auth/Screen/sign_up_screen.dart';
+import 'package:firebase_project/Screen/home_screen.dart';
+import 'package:firebase_project/Screen/sign_up_screen.dart';
 import 'package:firebase_project/widgets/text_field.dart';
 
 import 'package:flutter/material.dart';

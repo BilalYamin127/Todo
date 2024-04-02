@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_project/model/task/task_model.dart';
-import 'package:firebase_project/ui/auth/Screen/create_task_screen.dart';
+import 'package:firebase_project/Screen/create_task_screen.dart';
 
 class EditTaskScreen extends StatefulWidget {
   const EditTaskScreen({
