@@ -8,10 +8,10 @@ import 'package:firebase_project/ui/auth/Screen/create_task_screen.dart';
 
 class EditTaskScreen extends StatefulWidget {
   const EditTaskScreen({
-    Key? key,
+    super.key,
     required this.dataDoc,
     required this.id,
-  }) : super(key: key);
+  });
   final Map<String, dynamic> dataDoc;
   final String id;
   @override

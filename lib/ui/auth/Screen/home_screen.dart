@@ -1,22 +1,19 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_project/Providers/couter_provider.dart';
+import 'package:firebase_project/Providers/category_couter_provider.dart';
 import 'package:firebase_project/Providers/user_details.dart';
-import 'package:firebase_project/model/user/user_model.dart';
+
 import 'package:firebase_project/ui/auth/Screen/edit_task_screen.dart';
 import 'package:firebase_project/ui/auth/Screen/logout_screen.dart';
 import 'package:firebase_project/ui/auth/Screen/create_task_screen.dart';
 import 'package:firebase_project/widgets/container.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  final User? user;
-
-  // ignore: use_key_in_widget_constructors
-  const HomeScreen({required this.user});
+  const HomeScreen({super.key});
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -74,8 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      LogOut(user: widget.user)),
+                                  builder: (context) => const LogOut()),
                             );
                           },
                           child: const CircleAvatar(
@@ -92,13 +88,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomContainer(
-                        count: ref.watch(categoryCountsProvider).projects,
+                        count: ref.watch(categoryCountsProvider).projects ?? 0,
                         icon: const Icon(Icons.speaker),
                         title: 'Projects',
                         color: const Color.fromARGB(255, 180, 196, 255),
                       ),
                       CustomContainer(
-                        count: ref.watch(categoryCountsProvider).work,
+                        count: ref.watch(categoryCountsProvider).work ?? 0,
                         icon: const Icon(Icons.work),
                         title: 'Work',
                         color: const Color.fromARGB(255, 207, 243, 233),
@@ -110,16 +106,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomContainer(
-                        count: ref.watch(categoryCountsProvider).dailyTasks,
+                        count:
+                            ref.watch(categoryCountsProvider).dailyTasks ?? 0,
                         icon: const Icon(Icons.task),
                         title: 'Daily Tasks',
                         color: const Color.fromARGB(255, 193, 145, 255),
                       ),
                       CustomContainer(
-                        count: ref.watch(categoryCountsProvider).groceries,
+                        count: ref.watch(categoryCountsProvider).groceries ?? 0,
                         icon: const Icon(Icons.local_grocery_store),
                         title: 'Groceries',
-                        color: Color.fromARGB(255, 244, 216, 177),
+                        color: const Color.fromARGB(255, 244, 216, 177),
                       ),
                     ],
                   ),

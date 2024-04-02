@@ -90,7 +90,7 @@ class _TasksScreenState extends State<TasksScreen> {
       await taskCollection.add(taskdata);
       _formKey.currentState?.reset();
       print('User data stored in Firestore successfully');
-      Navigator.pop(context);
+      Navigator.of(context).pop();
 
       // Show success message or navigate to another screen
     } catch (e) {

@@ -41,23 +41,21 @@ class UserNotifier extends Notifier<UserState> {
 
     if (userUid != null) {
       try {
-        print('user is not null: $userUid');
         var snapshot = await FirebaseFirestore.instance
             .collection('Users')
             .doc(userUid)
             .get();
-        print('Snapshot data: ${snapshot.data()}'); // Log snapshot data
+
         if (snapshot.exists) {
-          print('Snapshot exists'); // Log if snapshot exists
           final user = UserModel.fromJson(snapshot.data()!);
 
           state = state.copyWith(userModel: user);
         } else {
-          print('Snapshot does not exist'); // Log if snapshot does not exist
+          print('Snapshot does not exist');
         }
       } catch (e) {
         print('the error is : $e');
-        throw e; // Throw the error to propagate it
+        throw e;
       }
     }
 

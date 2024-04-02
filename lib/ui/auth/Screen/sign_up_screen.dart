@@ -13,6 +13,7 @@ class SignUpScreen extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final GlobalKey<FormState> signupformKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var signupp = ref.watch(signupprovider);
@@ -59,7 +60,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           height: 20,
                         ),
                         Form(
-                          key: signupp.formKey,
+                          key: signupformKey,
                           child: Column(
                             children: [
                               SizedBox(
@@ -145,7 +146,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (signupp.formKey.currentState!
+                                    if (signupformKey.currentState!
                                         .validate()) {
                                       ref
                                           .read(signupprovider.notifier)

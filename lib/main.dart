@@ -1,4 +1,4 @@
-import 'package:firebase_project/start_screen.dart';
+import 'package:firebase_project/ui/auth/Screen/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

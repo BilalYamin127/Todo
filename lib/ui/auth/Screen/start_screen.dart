@@ -65,7 +65,7 @@ class StartScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(user: user),
+                          builder: (context) => const HomeScreen(),
                         ));
                   } else {
                     // User is not logged in, navigate to login screen

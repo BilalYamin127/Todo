@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LogOut extends ConsumerStatefulWidget {
-  final User? user;
-  const LogOut({super.key, required this.user});
+  const LogOut({super.key});
 
   @override
   ConsumerState<LogOut> createState() => _LogOutState();
@@ -91,7 +90,7 @@ class _LogOutState extends ConsumerState<LogOut> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 12),
                     child: Text(
-                      widget.user?.email ?? 'User',
+                      user.email ?? 'not found',
                       style: const TextStyle(
                         fontSize: 18,
                       ),

@@ -1,24 +1,44 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoryCounts {
-  int work = 0;
-  int projects = 0;
-  int dailyTasks = 0;
-  int groceries = 0;
+  int? work = 0;
+  int? projects = 0;
+  int? dailyTasks = 0;
+  int? groceries = 0;
 
   CategoryCounts({
-    required this.work,
-    required this.projects,
-    required this.dailyTasks,
-    required this.groceries,
+    this.work,
+    this.projects,
+    this.dailyTasks,
+    this.groceries,
   });
+
+  @override
+  String toString() {
+    return 'CategoryCounts(work: $work, projects: $projects, dailyTasks: $dailyTasks, groceries: $groceries)';
+  }
+
+  CategoryCounts copyWith({
+    int? work,
+    int? projects,
+    int? dailyTasks,
+    int? groceries,
+  }) {
+    return CategoryCounts(
+      work: work ?? this.work,
+      projects: projects ?? this.projects,
+      dailyTasks: dailyTasks ?? this.dailyTasks,
+      groceries: groceries ?? this.groceries,
+    );
+  }
 }
 
 class CategoryCountsNotifier extends StateNotifier<CategoryCounts> {
   CategoryCountsNotifier()
-      : super(CategoryCounts(
-            work: 0, projects: 0, dailyTasks: 0, groceries: 0)) {}
+      : super(
+            CategoryCounts(work: 0, projects: 0, dailyTasks: 0, groceries: 0));
 
   void updateCategoryCountsFromFirestore() {
     FirebaseFirestore.instance
@@ -31,12 +51,13 @@ class CategoryCountsNotifier extends StateNotifier<CategoryCounts> {
       int groceriesCount = 0;
 
       snapshot.docs.forEach((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = doc.data();
         String category = data['taskCategory'];
 
         switch (category) {
           case 'work':
             workCount++;
+
             break;
           case 'projects':
             projectCount++;

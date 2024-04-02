@@ -10,7 +10,6 @@ class SignUpState {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController usernameController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final bool isLoading;
   SignUpState({
