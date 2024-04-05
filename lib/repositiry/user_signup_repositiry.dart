@@ -39,8 +39,3 @@ class UserSignUpRepo {
     }
   }
 }
-
-// final userModelProvider = Provider<UserModel>((ref) {
-//   // Initialize your UserModel here
-//   return UserModel(); // Example initialization, replace with your logic
-// });

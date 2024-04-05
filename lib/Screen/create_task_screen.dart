@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_project/model/task/task_model.dart';
+import 'package:firebase_project/theme/app_color/app_color.dart';
 
 import 'package:flutter/material.dart';
 
@@ -128,12 +129,13 @@ class _TasksScreenState extends State<TasksScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Task Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: AppColors.fieldTextcolor,
+                          ),
                     ),
                     // const SizedBox(height: 8),
                     SizedBox(
@@ -158,9 +160,9 @@ class _TasksScreenState extends State<TasksScreen> {
                     const Text(
                       'Category',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: AppColors.fieldTextcolor),
                     ),
                     // const SizedBox(height: 15),
                     SizedBox(
@@ -207,6 +209,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
+                        color: AppColors.fieldTextcolor,
                       ),
                     ),
                     SizedBox(
@@ -246,9 +249,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                 const Text(
                                   'Starting Time',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: AppColors.fieldTextcolor),
                                 ),
                                 SizedBox(
                                   height: 80,
@@ -289,9 +292,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                 const Text(
                                   'Ending Time',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: AppColors.fieldTextcolor),
                                 ),
                                 TextFormField(
                                   readOnly: true,
@@ -327,9 +330,9 @@ class _TasksScreenState extends State<TasksScreen> {
                     const Text(
                       'Priority',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: AppColors.fieldTextcolor),
                     ),
                     // const SizedBox(height: 15),
                     SizedBox(
@@ -372,9 +375,9 @@ class _TasksScreenState extends State<TasksScreen> {
                     const Text(
                       'Description',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: AppColors.fieldTextcolor),
                     ),
                     SizedBox(
                       child: TextFormField(

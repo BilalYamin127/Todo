@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_project/Providers/user_details.dart';
+import 'package:firebase_project/Providers/fetch_user_provider.dart';
 import 'package:firebase_project/Screen/login_screen.dart';
 
 import 'package:flutter/material.dart';

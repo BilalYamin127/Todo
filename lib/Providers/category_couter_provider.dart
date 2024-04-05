@@ -50,7 +50,7 @@ class CategoryCountsNotifier extends StateNotifier<CategoryCounts> {
       int dailyTaskCount = 0;
       int groceriesCount = 0;
 
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         Map<String, dynamic> data = doc.data();
         String category = data['taskCategory'];
 
@@ -69,7 +69,7 @@ class CategoryCountsNotifier extends StateNotifier<CategoryCounts> {
             groceriesCount++;
             break;
         }
-      });
+      }
 
       state = CategoryCounts(
         work: workCount,

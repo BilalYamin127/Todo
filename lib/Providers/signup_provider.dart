@@ -30,7 +30,6 @@ class SignUpState {
 
 class SignupNotifier extends Notifier<SignUpState> {
   void setIsLoading() {
-    //final isloading = state.isLoading;
     state = state.copyWith(isLoading: false);
   }
 

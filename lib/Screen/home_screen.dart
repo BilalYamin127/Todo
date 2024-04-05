@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_project/Providers/category_couter_provider.dart';
-import 'package:firebase_project/Providers/user_details.dart';
+import 'package:firebase_project/Providers/fetch_user_provider.dart';
 
 import 'package:firebase_project/Screen/edit_task_screen.dart';
 import 'package:firebase_project/Screen/logout_screen.dart';
@@ -59,7 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Welcome,${user!.username}',
+                            'Welcome,${user?.username ?? ' user not found'}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -133,19 +133,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         }
-
-                        // if (snapshot.connectionState ==
-                        //     ConnectionState.waiting) {
-                        //   return const CircularProgressIndicator();
-                        // }
-
                         return ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
+                          itemCount: snapshot.data?.docs.length ?? 0,
                           itemBuilder: (context, index) {
-                            DocumentSnapshot document =
-                                snapshot.data!.docs[index];
-                            Map<String, dynamic> datadoc =
-                                document.data() as Map<String, dynamic>;
+                            var document = snapshot.data?.docs[index];
+                            final datadoc =
+                                document?.data() as Map<String, dynamic>;
 
                             return Container(
                               margin: const EdgeInsets.symmetric(vertical: 5),
@@ -154,7 +147,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ? const Color.fromARGB(255, 206, 255, 219)
                                     : Colors.white,
                                 border: Border.all(
-                                  color: Color.fromARGB(20, 22, 10, 9),
+                                  color: const Color.fromARGB(20, 22, 10, 9),
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(12.0),
@@ -167,14 +160,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 leading: Checkbox(
                                   checkColor:
                                       Colors.white, // Color of the check icon
-                                  activeColor: Color.fromARGB(255, 52, 168, 83),
+                                  activeColor:
+                                      const Color.fromARGB(255, 52, 168, 83),
                                   tristate: false,
                                   shape: const CircleBorder(),
                                   value: datadoc['isCompleted'],
                                   onChanged: (bool? newValue) {
                                     FirebaseFirestore.instance
                                         .collection('Tasks')
-                                        .doc(document.id)
+                                        .doc(document?.id)
                                         .update({
                                       'isCompleted': newValue,
                                     });
@@ -208,7 +202,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             builder: (context) =>
                                                 EditTaskScreen(
                                               dataDoc: datadoc,
-                                              id: document.id,
+                                              id: document?.id ??
+                                                  'Id not fount',
                                             ),
                                           ),
                                         );
@@ -223,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       onPressed: () {
                                         FirebaseFirestore.instance
                                             .collection('Tasks')
-                                            .doc(document.id)
+                                            .doc(document?.id)
                                             .delete();
                                         // setState(() {
                                         //   getCategoryCounts();

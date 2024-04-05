@@ -54,8 +54,7 @@ class UserNotifier extends Notifier<UserState> {
           print('Snapshot does not exist');
         }
       } catch (e) {
-        print('the error is : $e');
-        throw e;
+        throw Exception('the error is : $e');
       }
     }
 
