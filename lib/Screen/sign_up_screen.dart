@@ -1,22 +1,33 @@
 import 'package:firebase_project/Providers/signup_provider.dart';
 import 'package:firebase_project/Screen/login_screen.dart';
 import 'package:firebase_project/widgets/text_field.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
-
   @override
   ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    usernameController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   final GlobalKey<FormState> signupformKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    var signupp = ref.watch(signupprovider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -66,7 +77,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: signupp.emailController,
+                                  controller: emailController,
                                   autofocus: true,
                                   hintText: 'john@gmail.com',
                                   suffixText: 'Email',
@@ -87,7 +98,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: signupp.usernameController,
+                                  controller: usernameController,
                                   hintText: 'bilalYamin123.. etc',
                                   suffixText: 'Username',
                                   validator: (value) {
@@ -102,7 +113,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: signupp.passwordController,
+                                  controller: passwordController,
                                   obscureText: true,
                                   hintText: '********',
                                   suffixText: 'Password',
@@ -121,7 +132,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               SizedBox(
                                 height: 70,
                                 child: CustomTextFormFiled(
-                                  controller: signupp.confirmPasswordController,
+                                  controller: confirmPasswordController,
                                   obscureText: true,
                                   hintText: '********',
                                   suffixText: 'Confirm Password',
@@ -129,11 +140,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                     if (value == null || value.isEmpty) {
                                       return 'Please Enter Confirm Password ';
                                     }
-                                    if (value !=
-                                        signupp.passwordController.text) {
+                                    if (value != passwordController.text) {
                                       return 'Passwords do not match';
                                     }
-
                                     return null;
                                   },
                                   keyboardType: TextInputType.text,
@@ -151,20 +160,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                       ref
                                           .read(signupprovider.notifier)
                                           .createUserWithEmailAndPassword(
-                                              signupp.emailController.text
+                                              emailController.text.toString(),
+                                              passwordController.text
                                                   .toString(),
-                                              signupp.passwordController.text
+                                              usernameController.text
                                                   .toString(),
-                                              signupp.usernameController.text
-                                                  .toString());
-                                      Navigator.pop(context);
+                                              context);
+                                      // Navigator.pop(context);
                                     }
                                   },
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(Colors
                                             .black), // Set background color to white
-                                    // Set border color to black
                                   ),
                                   child: const Text(
                                     'Sign UP',

@@ -1,21 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:firebase_project/repositiry/user_signup_repositiry.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SignUpState {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-
-  final bool isLoading;
+  final bool? isLoading;
   SignUpState({
-    required this.isLoading,
+    this.isLoading,
   });
-
   SignUpState copyWith({
     bool? isLoading,
   }) {
@@ -34,12 +26,16 @@ class SignupNotifier extends Notifier<SignUpState> {
   }
 
   Future<void> createUserWithEmailAndPassword(
-      String email, String password, String username) async {
+      String email, String password, String username, context) async {
     try {
-      final userRepo = UserSignUpRepo();
-      await userRepo.createUserWithFirebaseAuth(email, password, username);
+      final userRepo = UserSignUpRepo(context: context);
+      await userRepo.createUserWithFirebaseAuth(
+        email,
+        password,
+        username,
+      );
     } catch (e) {
-      print('Error creating user: $e');
+      rethrow;
     }
   }
 

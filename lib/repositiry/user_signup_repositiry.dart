@@ -1,17 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_project/model/user/user_model.dart';
+import 'package:flutter/material.dart';
 
 class UserSignUpRepo {
+  BuildContext context;
+  UserSignUpRepo({required this.context});
+  bool isStore = false;
+
   Future<void> storeUserModelInFirestore(UserModel userModel) async {
     try {
       final firestore = FirebaseFirestore.instance;
       final userCollection = firestore.collection('Users');
       // Convert userModel to JSON
       await userCollection.doc(userModel.id).set(userModel.toJson());
-      print('User data stored in Firestore successfully');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(' User data stored in Firestore successfully'),
+        ),
+      );
+      // isStore = true;
+      // if (isStore) {
+      //   Navigator.pop(context);
+      // }
     } catch (e) {
-      print('Error storing user data: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('error in data store $e'),
+        ),
+      );
     }
   }
 
@@ -33,9 +53,13 @@ class UserSignUpRepo {
       );
 
       await storeUserModelInFirestore(userModel);
-      print('User data stored in Firestore successfully');
     } catch (e) {
-      print('Error creating user: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(' Error in storing data in  userModel: $e'),
+        ),
+      );
     }
   }
 }

@@ -2,7 +2,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:firebase_project/model/task/task_model.dart';
 import 'package:firebase_project/Screen/create_task_screen.dart';
 
@@ -20,17 +19,14 @@ class EditTaskScreen extends StatefulWidget {
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
   final _formKey = GlobalKey<FormState>();
-
   late TextEditingController taskNameController;
   late TextEditingController descriptionController;
-
   Categoryenum? selectedCategory;
   Priorityenum? selectedPriority;
   DateTime? _selectedDate;
   TimeOfDay? _selectedStartTime;
   TimeOfDay? _selectedEndTime;
   bool? iscomplete;
-
   @override
   @override
   void initState() {
@@ -44,7 +40,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     selectedcat(firebaseCategory);
     String firebaseperiority = widget.dataDoc['taskPriority'];
     selectPeriority(firebaseperiority);
-
     // Assuming widget.dataDoc['taskStartTime'] is a string representing time in HH:mm format
     String? startTimeString = widget.dataDoc['taskStartTime'];
     selectedStartTime(startTimeString);
@@ -146,11 +141,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     }
   }
 
-  // Map user-entered data to TaskModel
   TaskModel mapToTaskModel() {
     DateTime now = DateTime.now();
     var idd = now.microsecond.toString();
-
     return TaskModel(
       taskCategory: selectedCategory,
       taskPriority: selectedPriority,
@@ -169,18 +162,23 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       final firestore = FirebaseFirestore.instance;
       final taskCollection = firestore.collection('Tasks');
       Map<String, dynamic> taskdata = task.toJson();
-
       await taskCollection.doc(id).update(taskdata);
       _formKey.currentState?.reset();
-      print('User data Update in Firestore successfully');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('User data Update in Firestore successfully'),
+        ),
+      );
 
       Navigator.pop(context);
-
-      // Show success message or navigate to another screen
     } catch (e) {
-      // Handle errors
-      print('Error adding task: $e');
-      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('Error in Updating the User$e'),
+        ),
+      );
     }
   }
 
@@ -277,7 +275,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         }).toList(),
                       ),
                     ),
-
                     const Text(
                       'Date and Time ',
                       style: TextStyle(

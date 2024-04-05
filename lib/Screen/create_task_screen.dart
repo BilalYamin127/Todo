@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_project/model/task/task_model.dart';
 import 'package:firebase_project/theme/app_color/app_color.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 
 enum Categoryenum { projects, work, groceries, dailytasks }
@@ -12,23 +10,19 @@ enum Priorityenum { low, medium, high }
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
-
   @override
   State<TasksScreen> createState() => _TasksScreenState();
 }
 
 class _TasksScreenState extends State<TasksScreen> {
   final _formKey = GlobalKey<FormState>();
-
   TextEditingController taskNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-
   Categoryenum? selectedCategory;
   Priorityenum? selectedPriority;
   DateTime? _selectedDate;
   TimeOfDay? _selectedStartTime;
   TimeOfDay? _selectedEndTime;
-
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -68,7 +62,6 @@ class _TasksScreenState extends State<TasksScreen> {
   TaskModel mapToTaskModel() {
     DateTime now = DateTime.now();
     var idd = now.microsecond.toString();
-
     return TaskModel(
       taskCategory: selectedCategory,
       taskPriority: selectedPriority,
@@ -87,17 +80,24 @@ class _TasksScreenState extends State<TasksScreen> {
       final firestore = FirebaseFirestore.instance;
       final taskCollection = firestore.collection('Tasks');
       Map<String, dynamic> taskdata = task.toJson();
-
       await taskCollection.add(taskdata);
       _formKey.currentState?.reset();
-      print('User data stored in Firestore successfully');
-      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('User data stored in Firestore successfully'),
+        ),
+      );
 
+      Navigator.of(context).pop();
       // Show success message or navigate to another screen
     } catch (e) {
-      // Handle errors
-      print('Error adding task: $e');
-      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('error adding Task $e'),
+        ),
+      );
     }
   }
 
@@ -137,7 +137,7 @@ class _TasksScreenState extends State<TasksScreen> {
                             color: AppColors.fieldTextcolor,
                           ),
                     ),
-                    // const SizedBox(height: 8),
+
                     SizedBox(
                       height: 70,
                       child: TextFormField(
@@ -203,7 +203,6 @@ class _TasksScreenState extends State<TasksScreen> {
                         }).toList(),
                       ),
                     ),
-
                     const Text(
                       'Date and Time ',
                       style: TextStyle(

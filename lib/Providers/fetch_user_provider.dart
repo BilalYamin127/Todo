@@ -37,7 +37,6 @@ class UserNotifier extends Notifier<UserState> {
 
   Future<void> getUser() async {
     final userUid = FirebaseAuth.instance.currentUser?.uid;
-    print(userUid);
 
     if (userUid != null) {
       try {
@@ -50,8 +49,6 @@ class UserNotifier extends Notifier<UserState> {
           final user = UserModel.fromJson(snapshot.data()!);
 
           state = state.copyWith(userModel: user);
-        } else {
-          print('Snapshot does not exist');
         }
       } catch (e) {
         throw Exception('the error is : $e');
