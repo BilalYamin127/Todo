@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppColorSchemes {
   static const lightColorScheme = ColorScheme.light(
-      primary: AppColors.primary,
+      primary: Color.fromARGB(255, 23, 22, 22),
       inversePrimary: AppColors.secondary,
       tertiary: AppColors.lightGrey,
       surface: AppColors.purple,
@@ -17,60 +17,36 @@ class AppColorSchemes {
       onInverseSurface: AppColors.lightpurple,
       onTertiary: AppColors.darkGrey);
   static const darkColorScheme = ColorScheme.dark(
-      primary: AppColors.secondary,
-      inversePrimary: AppColors.primary,
+      primary: Color.fromARGB(255, 240, 225, 165),
+      inversePrimary: Color.fromARGB(255, 0, 0, 0),
       tertiary: AppColors.darkGrey,
-      onSurface: AppColors.purple,
-      shadow: AppColors.fieldGrey,
+      onSurface: Color.fromARGB(255, 164, 128, 231),
+      shadow: Color.fromARGB(255, 19, 0, 46),
       outline: AppColors.blue,
       onInverseSurface: AppColors.darkblue,
       onSurfaceVariant: AppColors.blackpurple,
-      inverseSurface: AppColors.primary);
+      inverseSurface: Color.fromARGB(255, 242, 239, 239));
 }
 
 class AppTheme {
-  static final lightThemeCopy = ThemeData(
-      datePickerTheme: const DatePickerThemeData(
-        backgroundColor: AppColors.primary,
-        todayBackgroundColor: MaterialStatePropertyAll(AppColors.secondary),
-      ),
-      colorScheme: AppColorSchemes.lightColorScheme,
-      textSelectionTheme:
-          const TextSelectionThemeData(cursorColor: AppColors.secondary),
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      appBarTheme: AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        elevation: 0,
-        backgroundColor: AppColorSchemes.lightColorScheme.primary,
-      ),
-      textTheme: AppTextTheme.textTheme(AppColorSchemes.lightColorScheme),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-            elevation: 5,
-            shadowColor: AppColors.shadowColor.withOpacity(0.5),
-            backgroundColor: AppColors.appThemeColor,
-            foregroundColor: AppColors.primary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-            minimumSize: const Size(double.infinity, 50),
-            textStyle:
-                const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: AppColors.appThemeColor,
-          textStyle: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.appThemeColor), // Add your text style here
-        ),
-      ),
-      dialogTheme: DialogTheme(
-          backgroundColor: const Color.fromARGB(255, 0, 6, 10).withOpacity(0.5),
-          surfaceTintColor: Colors.transparent));
+  static final lightTheme = ThemeData(
+    scaffoldBackgroundColor: AppColors.primary,
+    useMaterial3: false,
+    colorScheme: AppColorSchemes.lightColorScheme,
+    appBarTheme: AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle.light,
+      elevation: 0,
+      backgroundColor: AppColorSchemes.lightColorScheme.primary,
+    ),
+    textTheme: AppTextTheme.textTheme(AppColorSchemes.lightColorScheme),
+  );
   static final darkTheme = ThemeData(
+    listTileTheme: ListTileThemeData(
+        selectedColor: AppColorSchemes.darkColorScheme.primary,
+        leadingAndTrailingTextStyle:
+            TextStyle(color: AppColorSchemes.darkColorScheme.inversePrimary)),
+    scaffoldBackgroundColor: AppColors.secondary,
     colorScheme: AppColorSchemes.darkColorScheme,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
     appBarTheme: AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle.light,
       elevation: 5,
@@ -78,16 +54,6 @@ class AppTheme {
       backgroundColor: AppColorSchemes.darkColorScheme.primary,
     ),
     textTheme: AppTextTheme.textTheme(AppColorSchemes.darkColorScheme),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: AppColors.appThemeColor,
-          foregroundColor: AppColors.primary,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-          minimumSize: const Size(double.infinity, 50),
-          textStyle: const TextStyle(fontSize: 12)),
-    ),
   );
 }
 

@@ -25,11 +25,11 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeModeProvider);
+    var themeMode = ref.watch(modeChangeProvider).thememode;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: themeMode == ThemeMode.light
-          ? AppTheme.lightThemeCopy
+          ? AppTheme.lightTheme
           : AppTheme.darkTheme,
       darkTheme: AppTheme.darkTheme,
       home: const StartScreen(),

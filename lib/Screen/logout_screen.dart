@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_project/Providers/fetch_user_provider.dart';
+import 'package:firebase_project/Providers/theme_provider.dart';
 import 'package:firebase_project/Screen/login_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class _LogOutState extends ConsumerState<LogOut> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider).userModel;
+    final modeProvider = ref.watch(modeChangeProvider.notifier);
+    final isDarkMode = ref.watch(modeChangeProvider).isDarkMode ?? false;
 
     return Scaffold(
       body: Stack(children: [
@@ -53,11 +56,8 @@ class _LogOutState extends ConsumerState<LogOut> {
                             AssetImage('assets/images/logout_profile.png'),
                       ),
                       Text(
-                        ' ${user!.username}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        ' ${user?.username ?? 'user not found'}',
+                        style: Theme.of(context).textTheme.displayLarge,
                       ),
                     ],
                   ),
@@ -71,12 +71,9 @@ class _LogOutState extends ConsumerState<LogOut> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Welcome',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 20),
                 Container(
@@ -89,12 +86,8 @@ class _LogOutState extends ConsumerState<LogOut> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 18, vertical: 12),
-                    child: Text(
-                      user.email ?? 'not found',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
+                    child: Text(user?.email ?? 'not found email',
+                        style: Theme.of(context).textTheme.bodyLarge),
                   ),
                 ),
               ],
@@ -115,13 +108,37 @@ class _LogOutState extends ConsumerState<LogOut> {
                   height: 60,
                   width: 150,
                   color: const Color.fromARGB(255, 151, 71, 255),
-                  child: const Center(
+                  child: Center(
                       child: Text(
                     'Log out',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: Theme.of(context).textTheme.displayLarge,
                   ))),
             ),
           ),
+          const SizedBox(
+            height: 25,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'Switch Mode ',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              Switch(
+                value: isDarkMode,
+                onChanged: (value) {
+                  if (value) {
+                    print(value);
+                    modeProvider.setDarkMode();
+                  } else {
+                    print(value);
+                    modeProvider.setLightMode();
+                  }
+                },
+              )
+            ],
+          )
         ]),
         Positioned(
           bottom: 0,

@@ -85,7 +85,7 @@ class _TasksScreenState extends State<TasksScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           behavior: SnackBarBehavior.floating,
-          content: Text('User data stored in Firestore successfully'),
+          content: Text('Task stored in Firestore successfully'),
         ),
       );
 

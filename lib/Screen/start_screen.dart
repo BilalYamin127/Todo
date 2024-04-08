@@ -36,27 +36,16 @@ class StartScreen extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/Group.png',
-                    height: 20,
+                    height: 40,
                   ),
-                  const Text(
-                    'TodoHive',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,
-                    ),
-                  ),
+                  Text('TodoHive',
+                      style: Theme.of(context).textTheme.displayLarge),
                 ],
               ),
               const SizedBox(
                   height: 16), // Add some space between the text widgets
-              const Text(
-                'Innovative, user-friendly, and easy.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
+              Text('Innovative, user-friendly,\n and easy.',
+                  style: Theme.of(context).textTheme.bodyLarge),
               const SizedBox(height: 24), // Add more space before the button
               InkWell(
                 onTap: () {
@@ -86,12 +75,10 @@ class StartScreen extends StatelessWidget {
                         borderRadius: const BorderRadius.all(
                             Radius.circular(12)) // Set border color to black
                         ),
-                    child: const Center(
+                    child: Center(
                         child: Text(
-                      style: TextStyle(
-                        color: AppColors.textColor,
-                      ),
-                      'Get Started',
+                      style: Theme.of(context).textTheme.titleLarge,
+                      'Get Started  ->',
                     ))),
               ),
             ],

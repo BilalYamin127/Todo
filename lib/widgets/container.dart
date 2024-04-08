@@ -45,10 +45,8 @@ class CustomContainer extends StatelessWidget {
                   ),
                   Text(
                     title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                    style: TextStyle(color: Colors.black),
+                  )
                 ],
               ),
             ),
@@ -56,8 +54,10 @@ class CustomContainer extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
                 '$count',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               ),
             )
           ],
