@@ -8,6 +8,7 @@ import 'package:firebase_project/Providers/task_list_provider.dart';
 import 'package:firebase_project/Screen/edit_task_screen.dart';
 import 'package:firebase_project/Screen/logout_screen.dart';
 import 'package:firebase_project/Screen/create_task_screen.dart';
+import 'package:firebase_project/theme/app_color/app_color.dart';
 import 'package:firebase_project/widgets/container.dart';
 import 'package:flutter/material.dart';
 
@@ -102,17 +103,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: [
                         CustomContainer(
                           count:
-                              ref.watch(categoryCountsProvider).dailyTasks ?? 0,
-                          icon: const Icon(Icons.task),
-                          title: 'Daily Tasks',
-                          color: const Color.fromARGB(255, 193, 145, 255),
-                        ),
-                        CustomContainer(
-                          count:
                               ref.watch(categoryCountsProvider).groceries ?? 0,
                           icon: const Icon(Icons.local_grocery_store),
                           title: 'Groceries',
                           color: const Color.fromARGB(255, 244, 216, 177),
+                        ),
+                        CustomContainer(
+                          count:
+                              ref.watch(categoryCountsProvider).dailyTasks ?? 0,
+                          icon: const Icon(Icons.task),
+                          title: 'Daily Tasks',
+                          color: const Color.fromARGB(255, 193, 145, 255),
                         ),
                       ],
                     ),
@@ -122,7 +123,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     SizedBox(
-                        height: 420,
+                        height: MediaQuery.of(context).size.height * 0.48,
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: tasklist?.length ?? 0,
