@@ -8,7 +8,6 @@ import 'package:firebase_project/Providers/task_list_provider.dart';
 import 'package:firebase_project/Screen/edit_task_screen.dart';
 import 'package:firebase_project/Screen/logout_screen.dart';
 import 'package:firebase_project/Screen/create_task_screen.dart';
-import 'package:firebase_project/theme/app_color/app_color.dart';
 import 'package:firebase_project/widgets/container.dart';
 import 'package:flutter/material.dart';
 
