@@ -54,8 +54,6 @@ class UserNotifier extends Notifier<UserState> {
         throw Exception('the error is : $e');
       }
     }
-
-    throw Exception('User not found');
   }
 }
 

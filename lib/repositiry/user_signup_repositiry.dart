@@ -11,6 +11,7 @@ class UserSignUpRepo {
   Future<void> storeUserModelInFirestore(UserModel userModel) async {
     try {
       final firestore = FirebaseFirestore.instance;
+
       final userCollection = firestore.collection('Users');
       // Convert userModel to JSON
       await userCollection.doc(userModel.id).set(userModel.toJson());
@@ -21,6 +22,7 @@ class UserSignUpRepo {
           content: Text(' User data stored in Firestore successfully'),
         ),
       );
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -41,6 +43,7 @@ class UserSignUpRepo {
       );
 
       User user = userCredential.user!;
+
       UserModel userModel = UserModel(
         email: email,
         username: username,

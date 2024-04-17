@@ -37,7 +37,10 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create a new task'),
+        title: const Text(
+          'Create a new task',
+          style: TextStyle(color: AppColors.secondary),
+        ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -59,7 +62,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
-                              color: AppColors.fieldTextcolor,
+                              color: AppColors.secondary,
                             ),
                       ),
                       SizedBox(
@@ -85,7 +88,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: AppColors.fieldTextcolor),
+                            color: AppColors.secondary),
                       ),
                       SizedBox(
                         height: 80,
@@ -131,7 +134,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: AppColors.fieldTextcolor,
+                          color: AppColors.secondary,
                         ),
                       ),
                       SizedBox(
@@ -163,7 +166,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 120,
+                        height: 110,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,7 +180,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
-                                        color: AppColors.fieldTextcolor),
+                                        color: AppColors.secondary),
                                   ),
                                   SizedBox(
                                     height: 80,
@@ -222,7 +225,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
-                                        color: AppColors.fieldTextcolor),
+                                        color: AppColors.secondary),
                                   ),
                                   TextFormField(
                                     readOnly: true,
@@ -262,7 +265,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: AppColors.fieldTextcolor),
+                            color: AppColors.secondary),
                       ),
                       SizedBox(
                         child: Row(
@@ -307,7 +310,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
-                            color: AppColors.fieldTextcolor),
+                            color: AppColors.secondary),
                       ),
                       SizedBox(
                         child: TextFormField(
@@ -349,7 +352,7 @@ class _TasksScreenState extends ConsumerState<TasksScreen> {
 
                                     ref
                                         .read(createTaskProvider.notifier)
-                                        .updateTaskInFirestore(task, context);
+                                        .createTaskInFirestore(task, context);
                                   }
                                 },
                                 child: Container(

@@ -2,6 +2,7 @@
 
 import 'package:firebase_project/Providers/create_task_provider.dart';
 import 'package:firebase_project/Providers/edit_task_provider.dart';
+import 'package:firebase_project/theme/app_color/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -44,7 +45,10 @@ class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
     final selectedPriority = ref.watch(editTaskProvider).selectedPriority;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit your  task'),
+        title: const Text(
+          'Edit your  task',
+          style: TextStyle(color: AppColors.secondary),
+        ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

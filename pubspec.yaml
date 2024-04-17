@@ -47,6 +47,7 @@ dependencies:
   shared_preferences: ^2.2.2
   intl: any
   google_fonts: ^6.2.1
+ 
   
  
 

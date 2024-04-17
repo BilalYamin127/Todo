@@ -136,7 +136,6 @@ class EditTaskNotifier extends Notifier<EditTaskState> {
   Future<void> updateTaskInFirestore(
       TaskModel task, BuildContext context) async {
     try {
-      print(task.id);
       final firestore = FirebaseFirestore.instance;
       final taskCollection = firestore.collection('Tasks');
       Map<String, dynamic> taskdata = task.toJson();

@@ -6,8 +6,9 @@ import 'package:firebase_project/model/task/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
-enum Categoryenum { projects, work, groceries, dailytasks }
+enum Categoryenum { projects, work, dailytasks, groceries }
 
 enum Priorityenum { low, medium, high }
 
@@ -49,9 +50,6 @@ class CreateTaskState {
   factory CreateTaskState.initial() => CreateTaskState(
         selectedCategory: Categoryenum.projects,
         selectedPriority: Priorityenum.low,
-        selectedDate: DateTime.now(),
-        selectedStartTime: TimeOfDay.now(),
-        selectedEndTime: TimeOfDay.now(),
       );
 }
 
@@ -101,7 +99,7 @@ class CreateTaskNotifier extends Notifier<CreateTaskState> {
     state = state.copyWith(selectedPriority: priority);
   }
 
-  Future<void> updateTaskInFirestore(
+  Future<void> createTaskInFirestore(
       TaskModel task, BuildContext context) async {
     final formKey = GlobalKey<FormState>();
     try {
@@ -133,8 +131,9 @@ class CreateTaskNotifier extends Notifier<CreateTaskState> {
 
   // Map user-entered data to TaskModel
   TaskModel mapToTaskModel(String des, String name) {
-    DateTime now = DateTime.now();
-    var idd = now.microsecond.toString();
+    var now = const Uuid();
+    var uuid = now.v4();
+    var idd = uuid.toString();
     return TaskModel(
       taskCategory: state.selectedCategory,
       taskPriority: state.selectedPriority,

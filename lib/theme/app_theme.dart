@@ -6,12 +6,12 @@ import 'package:google_fonts/google_fonts.dart';
 class AppColorSchemes {
   static const lightColorScheme = ColorScheme.light(
       primary: Color.fromARGB(255, 23, 22, 22),
-      inversePrimary: AppColors.secondary,
+      // inversePrimary: AppColors.secondary,
       tertiary: AppColors.lightGrey,
-      surface: AppColors.purple,
+      //surface: AppColors.purple,
       surfaceVariant: AppColors.blackpurple,
       shadow: AppColors.fieldGrey,
-      outline: AppColors.blue,
+      // outline: AppColors.blue,
       inverseSurface: AppColors.darkblue,
       tertiaryContainer: AppColors.darkBlue,
       onInverseSurface: AppColors.lightpurple,
@@ -33,10 +33,10 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.primary,
     useMaterial3: false,
     colorScheme: AppColorSchemes.lightColorScheme,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle.light,
       elevation: 0,
-      backgroundColor: AppColorSchemes.lightColorScheme.primary,
+      backgroundColor: Color.fromARGB(255, 246, 242, 242),
     ),
     textTheme: AppTextTheme.textTheme(AppColorSchemes.lightColorScheme),
   );
@@ -45,7 +45,7 @@ class AppTheme {
         selectedColor: AppColorSchemes.darkColorScheme.primary,
         leadingAndTrailingTextStyle:
             TextStyle(color: AppColorSchemes.darkColorScheme.inversePrimary)),
-    scaffoldBackgroundColor: AppColors.secondary,
+    scaffoldBackgroundColor: const Color.fromARGB(255, 244, 238, 238),
     colorScheme: AppColorSchemes.darkColorScheme,
     appBarTheme: AppBarTheme(
       systemOverlayStyle: SystemUiOverlayStyle.light,
