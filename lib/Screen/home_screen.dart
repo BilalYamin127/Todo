@@ -1,9 +1,10 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_project/Providers/category_couter_provider.dart';
-import 'package:firebase_project/Providers/fetch_user_provider.dart';
+import 'package:firebase_project/Providers/create_task_provider.dart';
 
+import 'package:firebase_project/Providers/fetch_user_provider.dart';
+import 'package:firebase_project/Providers/task_list_provider.dart';
 import 'package:firebase_project/Screen/edit_task_screen.dart';
 import 'package:firebase_project/Screen/logout_screen.dart';
 import 'package:firebase_project/Screen/create_task_screen.dart';
@@ -28,44 +29,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ref
           .read(categoryCountsProvider.notifier)
           .updateCategoryCountsFromFirestore();
+      ref.read(taskListProvider.notifier).taskList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider).userModel;
+
+    final tasklist = ref.watch(taskListProvider).tasks;
+    ref.watch(taskListProvider.notifier).taskList();
+
     return Scaffold(
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                            'Welcome,${user?.username ?? ' user not found'}',
-                            style: Theme.of(context).textTheme.bodyLarge),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LogOut()),
-                          );
-                        },
-                        child: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/home_profile.png'),
-                          radius: 20,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                              'Welcome,${user?.username ?? ' user not found'}',
+                              style: Theme.of(context).textTheme.bodyLarge),
                         ),
-                      ),
-                    ],
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LogOut()),
+                            );
+                          },
+                          child: const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/home_profile.png'),
+                            radius: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -110,116 +119,102 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 SizedBox(
-                  height: 400,
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('Tasks')
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      }
-                      return ListView.builder(
-                        itemCount: snapshot.data?.docs.length ?? 0,
-                        itemBuilder: (context, index) {
-                          var document = snapshot.data?.docs[index];
-                          final datadoc =
-                              document?.data() as Map<String, dynamic>;
-
-                          return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            decoration: BoxDecoration(
-                              color: datadoc['isCompleted']
-                                  ? const Color.fromARGB(255, 206, 255, 219)
-                                  : Colors.white,
-                              border: Border.all(
-                                color: const Color.fromARGB(20, 22, 10, 9),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(12.0),
+                    height: 400,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: tasklist?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final task = tasklist![index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            color: task.isCompleted ?? false
+                                ? const Color.fromARGB(255, 206, 255, 219)
+                                : Colors.white,
+                            border: Border.all(
+                              color: const Color.fromARGB(20, 22, 10, 9),
+                              width: 1.0,
                             ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 8.0,
-                              ),
-                              leading: Checkbox(
-                                checkColor: Colors.white,
-                                activeColor:
-                                    const Color.fromARGB(255, 52, 168, 83),
-                                tristate: false,
-                                shape: const CircleBorder(),
-                                value: datadoc['isCompleted'],
-                                onChanged: (bool? newValue) {
-                                  FirebaseFirestore.instance
-                                      .collection('Tasks')
-                                      .doc(document?.id)
-                                      .update({
-                                    'isCompleted': newValue,
-                                  });
-                                },
-                              ),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start, // Adjust alignment
-                                children: [
-                                  Text(
-                                    datadoc['taskname'],
-                                    style: TextStyle(
-                                        color: Colors.black), // Use headline6
-                                  ),
-                                  Text(
-                                    datadoc['taskStartTime'],
-                                    style: TextStyle(
-                                        color: Colors.black), // Use subtitle1
-                                  ),
-                                ],
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => EditTaskScreen(
-                                            dataDoc: datadoc,
-                                            id: document?.id ?? 'Id not found',
-                                          ),
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 8.0,
+                            ),
+                            leading: Checkbox(
+                              checkColor: Colors.white,
+                              activeColor:
+                                  const Color.fromARGB(255, 52, 168, 83),
+                              tristate: false,
+                              shape: const CircleBorder(),
+                              value: task.isCompleted,
+                              onChanged: (bool? newValue) {
+                                ref
+                                    .read(taskListProvider.notifier)
+                                    .setISComplete(newValue, task.id);
+                              },
+                            ),
+                            title: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start, // Adjust alignment
+                              children: [
+                                Text(
+                                  task.taskname ?? 'not found',
+                                  style: const TextStyle(
+                                      color: Colors.black), // Use headline6
+                                ),
+                                Text(
+                                  task.taskStartTime?.format(context) ?? "",
+                                  style: const TextStyle(
+                                      color: Colors.black), // Use subtitle1
+                                ),
+                              ],
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    print(task);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditTaskScreen(
+                                          task: task,
                                         ),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.edit),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.edit),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(taskListProvider.notifier)
+                                        .deleteTask(task);
+                                    ref
+                                        .watch(taskListProvider.notifier)
+                                        .taskList();
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete_rounded,
+                                    color: Colors.red,
                                   ),
-                                  IconButton(
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection('Tasks')
-                                          .doc(document?.id)
-                                          .delete();
-                                    },
-                                    icon: const Icon(
-                                      Icons.delete_rounded,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
+                          ),
+                        );
+                      },
+                    )),
                 const SizedBox(height: 20),
                 Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: InkWell(
                       onTap: () {
+                        ref.read(createTaskProvider.notifier).reset();
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -45,7 +45,7 @@ class CustomContainer extends StatelessWidget {
                   ),
                   Text(
                     title,
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   )
                 ],
               ),

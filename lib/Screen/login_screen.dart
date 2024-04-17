@@ -1,23 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:firebase_project/Screen/home_screen.dart';
+import 'package:firebase_project/Providers/login_provider.dart';
 import 'package:firebase_project/Screen/sign_up_screen.dart';
 import 'package:firebase_project/widgets/text_field.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formkey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
+  //final _auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -25,32 +23,37 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.dispose();
     super.dispose();
   }
+  // @override
+  // void initState() {
 
-  void login() async {
-    try {
-      var userCredential = await _auth.signInWithEmailAndPassword(
-          email: emailController.text.toString(),
-          password: passwordController.text.toString());
+  //   super.initState();
+  // }
 
-      if (!mounted) return;
-      User? user = userCredential.user;
+  // void login() async {
+  //   try {
+  //     var userCredential = await _auth.signInWithEmailAndPassword(
+  //         email: emailController.text.toString(),
+  //         password: passwordController.text.toString());
 
-      if (user != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(' User does not exist. try to Sign Up'),
-        ),
-      );
-    }
-  }
+  //     if (!mounted) return;
+  //     User? user = userCredential.user;
+
+  //     if (user != null) {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => const HomeScreen(),
+  //         ),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text(' User does not exist. try to Sign Up'),
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (formkey.currentState!.validate()) {
-                                    login();
+                                    ref.read(loginProvider.notifier).login(
+                                        emailController.text.toString(),
+                                        passwordController.text.toString(),
+                                        context);
                                   }
                                 },
                                 style: ButtonStyle(

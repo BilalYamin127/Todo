@@ -28,7 +28,7 @@ class ModeChangeState {
 class ModeChangeNotifier extends Notifier<ModeChangeState> {
   @override
   build() {
-    return ModeChangeState(isDarkMode: true, thememode: ThemeMode.dark);
+    return ModeChangeState(isDarkMode: false, thememode: ThemeMode.light);
   }
 
   void setDarkMode() {

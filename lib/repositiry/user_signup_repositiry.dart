@@ -14,17 +14,13 @@ class UserSignUpRepo {
       final userCollection = firestore.collection('Users');
       // Convert userModel to JSON
       await userCollection.doc(userModel.id).set(userModel.toJson());
-
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           behavior: SnackBarBehavior.floating,
           content: Text(' User data stored in Firestore successfully'),
         ),
       );
-      // isStore = true;
-      // if (isStore) {
-      //   Navigator.pop(context);
-      // }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -54,6 +50,7 @@ class UserSignUpRepo {
 
       await storeUserModelInFirestore(userModel);
     } catch (e) {
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,

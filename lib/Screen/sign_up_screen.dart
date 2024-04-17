@@ -165,7 +165,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                                   .toString(),
                                               usernameController.text
                                                   .toString(),
-                                              context);
+                                              BuildContext);
                                       // Navigator.pop(context);
                                     }
                                   },

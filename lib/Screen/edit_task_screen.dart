@@ -1,189 +1,47 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_project/Providers/create_task_provider.dart';
+import 'package:firebase_project/Providers/edit_task_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_project/model/task/task_model.dart';
-import 'package:firebase_project/Screen/create_task_screen.dart';
 
-class EditTaskScreen extends StatefulWidget {
+class EditTaskScreen extends ConsumerStatefulWidget {
   const EditTaskScreen({
     super.key,
-    required this.dataDoc,
-    required this.id,
+    required this.task,
   });
-  final Map<String, dynamic> dataDoc;
-  final String id;
+
+  final TaskModel task;
+
   @override
-  State<EditTaskScreen> createState() => _EditTaskScreenState();
+  ConsumerState<EditTaskScreen> createState() => _EditTaskScreenState();
 }
 
-class _EditTaskScreenState extends State<EditTaskScreen> {
+class _EditTaskScreenState extends ConsumerState<EditTaskScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController taskNameController;
   late TextEditingController descriptionController;
-  Categoryenum? selectedCategory;
-  Priorityenum? selectedPriority;
-  DateTime? _selectedDate;
-  TimeOfDay? _selectedStartTime;
-  TimeOfDay? _selectedEndTime;
+
   bool? iscomplete;
-  @override
+
   @override
   void initState() {
-    super.initState();
-    taskNameController =
-        TextEditingController(text: widget.dataDoc['taskname']);
+    ref.read(editTaskProvider.notifier).editTaskget(widget.task);
+    taskNameController = TextEditingController(text: widget.task.taskname);
     descriptionController =
-        TextEditingController(text: widget.dataDoc['taskDescription']);
-    _selectedDate = DateTime.parse(widget.dataDoc['taskDate']);
-    String firebaseCategory = widget.dataDoc['taskCategory'];
-    selectedcat(firebaseCategory);
-    String firebaseperiority = widget.dataDoc['taskPriority'];
-    selectPeriority(firebaseperiority);
-    // Assuming widget.dataDoc['taskStartTime'] is a string representing time in HH:mm format
-    String? startTimeString = widget.dataDoc['taskStartTime'];
-    selectedStartTime(startTimeString);
-    String? endtimeString = widget.dataDoc['taskEndTime'];
-    iscomplete = widget.dataDoc['isCompleted'];
-    selectedEndtime(endtimeString);
-  }
-
-  void selectedStartTime(String? starttime) {
-    if (starttime != null) {
-      List<String> timeParts = starttime.split(':');
-      int hours = int.parse(timeParts[0]);
-      int minutes = int.parse(timeParts[1]);
-      _selectedStartTime = TimeOfDay(hour: hours, minute: minutes);
-    }
-  }
-
-  void selectedEndtime(String? endtime) {
-    if (endtime != null) {
-      List<String> timeParts = endtime.split(':');
-      int hours = int.parse(timeParts[0]);
-      int minutes = int.parse(timeParts[1]);
-      _selectedEndTime = TimeOfDay(hour: hours, minute: minutes);
-    }
-  }
-
-  void selectPeriority(String periority) {
-    switch (periority) {
-      case 'low':
-        selectedPriority = Priorityenum.low;
-        break;
-      case 'medium':
-        selectedPriority = Priorityenum.medium;
-        break;
-      case 'high':
-        selectedPriority = Priorityenum.high;
-        break;
-      case 'dailytasks':
-        selectedCategory = Categoryenum.dailytasks;
-        break;
-      default:
-        // Handle unknown category string
-        break;
-    }
-  }
-
-  void selectedcat(String category) {
-    switch (category) {
-      case 'projects':
-        selectedCategory = Categoryenum.projects;
-        break;
-      case 'work':
-        selectedCategory = Categoryenum.work;
-        break;
-      case 'groceries':
-        selectedCategory = Categoryenum.groceries;
-        break;
-      case 'dailytasks':
-        selectedCategory = Categoryenum.dailytasks;
-        break;
-      default:
-        // Handle unknown category string
-        break;
-    }
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2101),
-    );
-    if (pickedDate != null) {
-      DateFormat formatter = DateFormat('yyyy-MM-dd');
-      String formattedDate = formatter.format(pickedDate);
-      DateTime formattedDateTime = DateTime.parse(formattedDate);
-      setState(() {
-        _selectedDate = formattedDateTime;
-      });
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
-    TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: isStartTime
-          ? _selectedStartTime ?? TimeOfDay.now()
-          : _selectedEndTime ?? TimeOfDay.now(),
-    );
-    if (pickedTime != null) {
-      setState(() {
-        if (isStartTime) {
-          _selectedStartTime = pickedTime;
-        } else {
-          _selectedEndTime = pickedTime;
-        }
-      });
-    }
-  }
-
-  TaskModel mapToTaskModel() {
-    DateTime now = DateTime.now();
-    var idd = now.microsecond.toString();
-    return TaskModel(
-      taskCategory: selectedCategory,
-      taskPriority: selectedPriority,
-      taskDate: _selectedDate,
-      taskStartTime: _selectedStartTime,
-      taskEndTime: _selectedEndTime,
-      taskDescription: descriptionController.text,
-      taskname: taskNameController.text,
-      id: idd,
-      isCompleted: iscomplete,
-    );
-  }
-
-  Future<void> updateTaskInFirestore(TaskModel task, String id) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final taskCollection = firestore.collection('Tasks');
-      Map<String, dynamic> taskdata = task.toJson();
-      await taskCollection.doc(id).update(taskdata);
-      _formKey.currentState?.reset();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text('Task Update in Firestore successfully'),
-        ),
-      );
-
-      Navigator.pop(context);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text('Error in Updating the User$e'),
-        ),
-      );
-    }
+        TextEditingController(text: widget.task.taskDescription);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final selectedCategory = ref.watch(editTaskProvider).selectedCategory;
+    final selectedDate = ref.watch(editTaskProvider).selectedDate;
+    final selectedStartTime = ref.watch(editTaskProvider).selectedStartTime;
+    final selectedEndTime = ref.watch(editTaskProvider).selectedEndTime;
+    final selectedPriority = ref.watch(editTaskProvider).selectedPriority;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit your  task'),
@@ -244,9 +102,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         children: Categoryenum.values.map((category) {
                           return GestureDetector(
                             onTap: () {
-                              setState(() {
-                                selectedCategory = category;
-                              });
+                              ref
+                                  .read(editTaskProvider.notifier)
+                                  .selectCategory(category);
                             },
                             child: Container(
                               height: 40,
@@ -286,16 +144,18 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       height: 70,
                       child: TextFormField(
                         readOnly: true,
-                        onTap: () => _selectDate(context),
+                        onTap: () => ref
+                            .read(editTaskProvider.notifier)
+                            .selectDate(context),
                         validator: (value) {
-                          if (_selectedDate == null) {
+                          if (selectedDate == null) {
                             return 'Please select a date';
                           }
                           return null;
                         },
                         controller: TextEditingController(
-                            text: _selectedDate != null
-                                ? DateFormat.yMd().format(_selectedDate!)
+                            text: selectedDate != null
+                                ? DateFormat.yMd().format(selectedDate)
                                 : ''),
                         decoration: const InputDecoration(
                           suffixIcon: Icon(Icons.calendar_today),
@@ -327,16 +187,18 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                   height: 80,
                                   child: TextFormField(
                                     readOnly: true,
-                                    onTap: () => _selectTime(context, true),
+                                    onTap: () => ref
+                                        .read(editTaskProvider.notifier)
+                                        .selectTime(context, true),
                                     validator: (value) {
-                                      if (_selectedStartTime == null) {
+                                      if (selectedStartTime == null) {
                                         return 'Please select starting time';
                                       }
                                       return null;
                                     },
                                     controller: TextEditingController(
-                                      text: _selectedStartTime != null
-                                          ? _selectedStartTime!.format(context)
+                                      text: selectedStartTime != null
+                                          ? selectedStartTime.format(context)
                                           : 'starting time',
                                     ),
                                     decoration: const InputDecoration(
@@ -368,16 +230,18 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                 ),
                                 TextFormField(
                                   readOnly: true,
-                                  onTap: () => _selectTime(context, false),
+                                  onTap: () => ref
+                                      .read(editTaskProvider.notifier)
+                                      .selectTime(context, false),
                                   validator: (value) {
-                                    if (_selectedEndTime == null) {
+                                    if (selectedEndTime == null) {
                                       return 'Please select ending time';
                                     }
                                     return null;
                                   },
                                   controller: TextEditingController(
-                                    text: _selectedEndTime != null
-                                        ? _selectedEndTime!.format(context)
+                                    text: selectedEndTime != null
+                                        ? selectedEndTime.format(context)
                                         : 'Ending Time',
                                   ),
                                   decoration: const InputDecoration(
@@ -411,9 +275,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         children: Priorityenum.values.map((priority) {
                           return GestureDetector(
                             onTap: () {
-                              setState(() {
-                                selectedPriority = priority;
-                              });
+                              ref
+                                  .read(editTaskProvider.notifier)
+                                  .selectPeriority(priority);
                             },
                             child: Container(
                               height: 40,
@@ -477,8 +341,14 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  TaskModel task = mapToTaskModel();
-                                  updateTaskInFirestore(task, widget.id);
+                                  TaskModel task = ref
+                                      .read(editTaskProvider.notifier)
+                                      .mapToTaskModel(
+                                          descriptionController.text.toString(),
+                                          taskNameController.text.toString());
+                                  ref
+                                      .read(editTaskProvider.notifier)
+                                      .updateTaskInFirestore(task, context);
                                 }
                               },
                               child: Container(

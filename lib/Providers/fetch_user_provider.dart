@@ -40,7 +40,7 @@ class UserNotifier extends Notifier<UserState> {
 
     if (userUid != null) {
       try {
-        var snapshot = await FirebaseFirestore.instance
+        final snapshot = await FirebaseFirestore.instance
             .collection('Users')
             .doc(userUid)
             .get();

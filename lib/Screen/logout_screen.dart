@@ -129,10 +129,8 @@ class _LogOutState extends ConsumerState<LogOut> {
                 value: isDarkMode,
                 onChanged: (value) {
                   if (value) {
-                    print(value);
                     modeProvider.setDarkMode();
                   } else {
-                    print(value);
                     modeProvider.setLightMode();
                   }
                 },
